@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ConsoleApp4
 {
@@ -11,16 +10,20 @@ namespace ConsoleApp4
 
         public static void Main(string[] args)
         {
-
+            
             using (ApplicationContext db = new ApplicationContext())
             {
                 db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();
-
-                string filePath = @"C:\rr\test.txt";
-                List<User> people = new List<User>();
-                List<string> lines = File.ReadAllLines(filePath).ToList();
-                foreach (var line in lines)
+                
+                Console.WriteLine("Укажите полный путь к файлу \n Пример C:\\rr\\test.txt");
+                string filePath = Console.ReadLine();
+                /*string filePath = @"C:\rr\test.txt";*/
+                if (File.Exists(filePath))//проверяем есть ли файл
+                {
+                 List<User> people = new List<User>();
+                 List<string> lines = File.ReadAllLines(filePath).ToList();
+                  foreach (var line in lines)
                 {
                     
                     string[] entries = line.Split(' ');
@@ -34,9 +37,13 @@ namespace ConsoleApp4
                 }
           
                 db.SaveChanges();
-                
+                }
+                else
 
-
+                {
+                    Console.WriteLine("Путь указан неверно");
+                    Console.Read();
+                }
 
                 // получаем объекты из бд и выводим на консоль
                 var users = db.Users.ToList();
