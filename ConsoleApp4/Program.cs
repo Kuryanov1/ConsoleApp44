@@ -19,19 +19,46 @@ namespace ConsoleApp4
                 Console.WriteLine("Укажите полный путь к файлу \n Пример C:\\rr\\test.txt");
                 string filePath = Console.ReadLine();
                 /*string filePath = @"C:\rr\test.txt";*/
-                if (File.Exists(filePath))//проверяем есть ли файл
+                if (File.Exists(filePath))
                 {
                  List<User> people = new List<User>();
                  List<string> lines = File.ReadAllLines(filePath).ToList();
                   foreach (var line in lines)
                 {
-                    
                     string[] entries = line.Split(' ');
                     User newUser = new User();
-                    newUser.LastName = entries[0];
-                    newUser.Name = entries[1];
-                    newUser.MiddleName = entries[2];
-                    newUser.Age = Convert.ToDateTime(entries[3]);
+                        if (entries[0]!=null)
+                        {
+                            newUser.LastName = entries[0];
+                        }
+                        else
+                        {
+                            break;
+                        }
+                        if (entries[1] != null)
+                        { 
+                            newUser.Name = entries[1]; 
+                        }
+                        else
+                        {
+                            break;
+                        }
+                        if (entries[2] != null)
+                        {
+                            newUser.MiddleName = entries[2];
+                        }
+                        else
+                        {
+                            break;
+                        }
+                        if (entries[3] != null)
+                        {
+                            newUser.Age = Convert.ToDateTime(entries[3]);
+                        }
+                        else
+                        {
+                            break;
+                        }
                     db.Users.Add(newUser);
                         
                 }
